@@ -1,0 +1,35 @@
+<launch>
+  <!-- The "which_scan" parameter determines which sensor (Ouster OS1-64 or 
+  Realsense D435i) will have the pointcloud it publishes mapped into a laserscan
+  for use in Google Cartographer -->
+  <arg name="which_scan" default="ouster"/>
+  
+  <!-- Configuration of Jackal which you would like to simulate.
+       See jackal_description for details. -->
+  <arg name="config" default="base" />
+
+  <include file="$(find jackal_description)/launch/description.launch"> 
+    <arg name="config" value="$(arg config)" />
+  </include> 
+
+<!--  Start cartographer-->
+  <include file="$(find jackal_cartographer_navigation)/launch/cartographer_demo.launch"/>
+ 
+ 
+<!--  Start the ouster 3d Lidar and convert it to a 2d scan-->
+  <include file="$(find ouster_ros)/ouster.launch">
+    <arg name="sensor_hostname" value="os1-992007000208.local" />
+    <arg name="udp_dest" value="169.254.156.200" />
+    <arg name="viz" value="false" />
+    <arg name="timestamp_mode" value="TIME_FROM_PTP_1588" />
+  </include>
+  
+  <include file="$(find pc2l)/launch/pc2l_ouster.launch"/>    
+  
+<!--  <include file="$(find microstrain_mips)/launch/microstrain.launch"/>-->
+  
+  <include file="$(find sara_description)/launch/view_robot.launch">
+    <arg name="config" value="gmapping" /> 
+  </include>-->
+
+</launch>

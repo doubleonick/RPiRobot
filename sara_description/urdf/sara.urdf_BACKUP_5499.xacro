@@ -1,0 +1,183 @@
+<?xml version="1.0"?>
+<robot name="sara" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="sara" params="parent_link version">
+  <!-- 
+  <xacro:include filename="$(find sara_description)/urdf/accessories/intel_realsense.urdf.xacro"/>
+<<<<<<< HEAD
+  -->
+  <!-- 
+  <xacro:include filename="$(find ouster_description)/urdf/OS1-64.urdf.xacro"/>
+  -->
+  
+  <!--
+  <xacro:include filename="$(find ouster_description)/urdf/os1_sensor.urdf.xacro"/>
+  
+=======
+  
+  <xacro:include filename="$(find ouster_description)/urdf/OS1-64.urdf.xacro"/>
+  <!--
+>>>>>>> dml_exp
+  <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
+  <xacro:include filename="$(find velodyne_description)/urdf/HDL-32E.urdf.xacro"/>
+  -->
+
+  <link name="unit_base_link">
+    <visual>
+      <geometry>
+        <xacro:if value="${version == 'husky'}">
+          <mesh filename="package://sara_description/meshes/sara_modular_sensor_unit.stl" />
+        </xacro:if>
+        <xacro:if value="${version == 'jackal'}">
+          <mesh filename="package://sara_description/meshes/sara_seventeen_modular_sensor_unit.stl" />
+        </xacro:if>
+        <xacro:if value="${version == 'gvrbot'}">
+          <mesh filename="package://sara_description/meshes/sara_seventeen_modular_sensor_unit.stl" />
+        </xacro:if>
+         
+      </geometry>
+      <material name="light_grey" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.07" rpy="0 0 0" />
+      <geometry>
+        <box size="0.32 0.25 0.14" rpy="0 0 0"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="unit_base_joint" type="fixed">
+    <parent link="${parent_link}" />
+    <child link="unit_base_link" />
+    <xacro:if value="${version == 'husky'}">
+      <origin xyz="0.335 0.0 0.2800" rpy="0 0 0" />
+    </xacro:if>
+    <xacro:if value="${version == 'jackal'}">
+      <origin xyz="0.10 0 0.213" rpy="0 0 0" />
+    </xacro:if>
+    <xacro:if value="${version == 'gvrbot'}">
+      <origin xyz="0.0 0.0 0.1675" rpy="0 0 0" />
+    </xacro:if>
+    
+  </joint>
+
+  <!-- NBL: Realsense D435i Link 
+
+  <link name="realsense_link"/>
+  <joint name="realsense_joint" type="fixed">
+    <parent link="unit_base_link" />
+    <child link="realsense_link" />
+    <origin xyz="0.140 0 0.194075" rpy="0 0 0" />  
+  </joint>
+  <xacro:intel_realsense_mount prefix="camera" topic="realsense" parent_link="realsense_link"/>-->
+
+<<<<<<< HEAD
+  <!-- NBL: Lidar Link (Ouster OS1-64 parameters using Velodyne plugins) -->
+  <link name="os_sensor"/>
+  <joint name="os_sensor_joint" type="fixed">
+=======
+  <!-- NBL: Lidar Link (Ouster OS1-64 parameters using Velodyne plugins) 
+  <link name="lidar_link"/>
+  <joint name="lidar_joint" type="fixed">
+>>>>>>> dml_exp
+    <parent link="unit_base_link" />
+    <child link="os_sensor" />
+    <origin xyz="0.0 0 0.335" rpy="0 0 1.5708" />
+<<<<<<< HEAD
+  </joint>
+  <!-- 
+  <xacro:OS1-64 parent="unit_base_link" name="os_sensor" topic_points="/os_cloud_node/points"/>
+  -->
+  <!--
+  <xacro:os1_sensor parent="unit_base_link" name="os1_sensor" topic_points="/os1_cloud_node/points"/>
+  
+    <origin xyz="0 0 0.335" rpy="0 0 0" />
+  </xacro:OS1-64>
+  -->
+=======
+  </joint>-->
+>>>>>>> dml_exp
+  <!--
+  <xacro:VLP-16 parent="unit_base_link" name="velodyne" topic="/velodyne_points" hz="10" samples="512">
+    <origin xyz="0 0 0.335" rpy="0 0 1.5708" />
+  </xacro:VLP-16>
+  
+  <xacro:HDL-32E parent="unit_base_link" name="velodyne2" topic="Microstrain/velodyne_points2" hz="10" samples="512">
+    <origin xyz="0 0 0.535" rpy="0 0 1.5708" />
+  </xacro:HDL-32E>
+  -->
+  
+<<<<<<< HEAD
+  <!-- Microstrain IMU LINK -->
+  <link name="imu_link">
+=======
+  <xacro:OS1-64 parent="unit_base_link" name="os_sensor" topic_points="/os1_cloud_node/points">
+    <origin xyz="0 0 0.335" rpy="0 0 0" />
+  </xacro:OS1-64>
+  
+  <!-- Microstrain IMU LINK 
+  <link name="microstrain_link">
+>>>>>>> dml_exp
+    <visual>
+      <geometry>
+        <mesh filename="package://sara_description/meshes/3DM_GX5_35.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.07" rpy="0 0 0" />
+      <geometry>
+        <box size="0.32 0.25 0.14" rpy="0 0 0"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="imu_joint" type="fixed">
+    <parent link="unit_base_link" />
+    <child link="imu_link" />
+    <origin xyz="0 0 0.00645" rpy="0 0 0" />
+  </joint>
+<<<<<<< HEAD
+  
+=======
+  -->
+>>>>>>> dml_exp
+<!-- FLIR -->
+  <link name="flirL_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://sara_description/meshes/FL2_020_R0.dae" /> 
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.07" rpy="0 0 0" />
+      <geometry>
+        <box size="0.32 0.25 0.14" rpy="0 0 0"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="flirL_joint" type="fixed">
+    <parent link="unit_base_link" />
+    <child link="flirL_link" />
+    <origin xyz="0.1111 0.111125 0.2255" rpy="0 1.5708 0" />
+  </joint>
+  <!-- FLIR ... change this to use left and right as a prefix.-->
+  <link name="flirR_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://sara_description/meshes/FL2_020_R0.dae" /> 
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.07" rpy="0 0 0" />
+      <geometry>
+        <box size="0.32 0.25 0.14" rpy="0 0 0"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="flirR_joint" type="fixed">
+    <parent link="unit_base_link" />
+    <child link="flirR_link" />
+    <origin xyz="0.1111 -0.111125 0.2255" rpy="0 1.5708 0" />
+  </joint>
+  </xacro:macro>
+</robot>

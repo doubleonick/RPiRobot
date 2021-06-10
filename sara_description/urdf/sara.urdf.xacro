@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<robot name="sara" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="sara" params="parent_link version">
+  
+  <xacro:include filename="$(find sara_description)/urdf/accessories/intel_realsense.urdf.xacro"/>
+  <!--
+  <xacro:include filename="$(find ouster_description)/urdf/OS1-64.urdf.xacro"/>
+  
+  <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
+  <xacro:include filename="$(find velodyne_description)/urdf/HDL-32E.urdf.xacro"/>
+  -->
+
+  <!-- NBL: Realsense D435i Link -->
+
+  <link name="camera_link"/>
+  <joint name="camera_joint" type="fixed">
+    <parent link="${parent_link}" />
+    <child link="camera_link" />
+    <origin xyz="0.0 0 0.03" rpy="0 0 0" />  
+  </joint>
+  <xacro:intel_realsense_mount prefix="camera" topic="camera" parent_link="camera_link"/>
+
+  <link name="imu_link"/>
+  <joint name="imu_joint" type="fixed">
+    <parent link="camera_link" /> <!--${parent_link}-->
+    <child link="imu_link" />
+    <origin xyz="0.0 0 0.0" rpy="0 0 0" />  
+  </joint>
+
+  </xacro:macro>
+</robot>
