@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="intel_realsense"> <!-- params="prefix topic parent_link"> -->
+  <xacro:macro name="intel_realsense" params="
+               prefix:=intel             parent_link:=base_link
+               frame:=camera             topic:=camera
+               h_fov:=1.5184351666666667 v_fov:=1.0122901111111111
+               min_range:=0.105          max_range:=8.0
+               width:=640                height:=480
+               update_rate:=30
+               robot_namespace:=/">
+  <link name="${prefix}_realsense_lens">
+    <visual>
+    <!--
+      the model's origin is in the middle & it's rotated to lie in
+      the optical standard with X left, Y up, and Z forward
+    -->
+    <origin xyz="0.0115 0 0.0100" rpy="1.570796 0 1.570796" />
+    <geometry>
+      <mesh filename="package://rpirobot_description/meshes/rpirobot-camera.stl"/>
+      <!-- Origin of this mesh is the base of the bracket. 
+      <mesh filename="package://realsense2_description/meshes/d415.stl" /> -->
+    </geometry>
+    <material name="white" />
+    </visual>
+  </link>
+
+  <joint type="fixed" name="${prefix}_realsense_lens_joint">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="${parent_link}" />
+    <child link="${prefix}_realsense_lens" />
+  </joint>
+
+  </xacro:macro>
+</robot> 

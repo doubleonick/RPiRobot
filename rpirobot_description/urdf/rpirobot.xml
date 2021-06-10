@@ -1,0 +1,149 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rpirobot">
+
+  <xacro:include filename="$(find rpirobot_description)/urdf/accessories/intel_realsense.urdf.xacro"/>   
+  <!--
+  <xacro:include filename="$(find rpirobot_description)/urdf/accessories/d435_camera.urdf.xacro"/>
+  
+  <xacro:arg name="use_nominal_extrinsics" default="true" />
+  <xacro:include filename="$(find realsense2_description)/urdf/_d435i.urdf.xacro"/>
+  
+  <xacro:include filename="$(find rpirobot_description)/urdf/accessories/intel_realsense.urdf.xacro"/>
+  -->
+
+################################################################################
+# LINKS                                                                        #
+################################################################################
+
+  ##### base_link ##############################################################
+
+  <link name="base_link">
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+      <geometry>
+        <mesh filename="package://rpirobot_description/meshes/rpirobot-base.stl"
+	      scale="0.1 0.1 0.1"/> 
+              ## scale="0.001 0.001 0.001"
+      </geometry>
+      <material name="yellow">
+        <color rgba="0.6 0.6 0.2 1.0"/>
+      </material>
+    </visual>
+  </link>
+
+  ##### treads #################################################################
+  <!---->
+  <link name="tread_port"/>
+    
+
+  <link name="tread_starboard"/>
+    
+  
+  ##### imu ####################################################################
+  <!--
+  <link name="imu_link">
+    <visual>
+      <geometry>
+	<mesh filename="package://rpirobot_description/meshes/rpirobot-camera.stl"
+              scale="0.1 0.1 0.1"/>
+      </geometry>
+      <material name="teal">
+        <color rgba="0.0 0.25 0.25 1.0"/>
+      </material>
+    </visual>
+  </link>
+  -->
+  ##### camera #################################################################
+  <!--
+  <link name="camera_link">
+    <visual>
+      <geometry>
+	<mesh filename="package://rpirobot_description/meshes/rpirobot-camera.stl"
+              scale="0.1 0.1 0.1"/>
+      </geometry>
+      <material name="blue">
+        <color rgba="0.2 0.25 0.5 1.0"/>
+      </material>
+    </visual>
+  </link>
+  -->
+  <!-- -->
+  <link name="camera_link"/>
+  
+  <!--
+  <link name="camera_link"/>
+  <xacro:include filename="$(find realsense2_description)/urdf/_d435i.urdf.xacro"/>
+  -->
+
+################################################################################
+# JOINTS                                                                       #
+################################################################################
+
+  ##### treads #################################################################
+  <!---->
+  <joint name="base_link_to_tread_port" type="fixed">
+    <parent link="base_link"/>
+    <child link="tread_port"/>
+    <origin xyz="0.0 0.12 -0.013" rpy="0.0 0.0 0.0"/>
+    <visual>
+      <geometry>
+	<mesh filename="package://rpirobot_description/meshes/rpirobot-tread.stl"
+              scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="green">
+        <color rgba="0.1 0.25 0.1 1.0"/>
+      </material>
+    </visual>
+  </joint>
+
+  <joint name="base_link_to_tread_starboard" type="fixed">
+    <parent link="base_link"/>
+    <child link="tread_starboard"/>
+    <origin xyz="0.0 -0.12 -0.013" rpy="0.0 0.0 0.0"/>
+    <visual>
+      <geometry>
+	<mesh filename="package://rpirobot_description/meshes/rpirobot-tread.stl"
+              scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="green">
+        <color rgba="0.1 0.25 0.1 1.0"/>
+      </material>
+    </visual>
+  </joint>
+  
+
+  ##### imu ####################################################################
+  <!--
+  <joint name="base_link_to_imu" type="fixed">
+    <parent link="base_link"/>
+    <child link="imu_link"/>
+    <origin xyz="0.0 0.0 0.03" rpy="0.0 0.0 0.0"/>
+  </joint>
+  -->
+  ##### camera #################################################################
+  <joint name="camera_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="camera_link" />
+    <origin xyz="0.0 0.0 0.03" rpy="0.0 0.0 0.0"/>
+  </joint>
+  <xacro:intel_realsense prefix="intel" topic="camera" parent_link="base_link"/>
+  <!--
+  <link name="camera_link"/>
+
+  <joint name="base_link_to_camera" type="fixed">
+    <parent link="base_link"/>
+    <child link="camera_link"/>
+    <origin xyz="0.0 0.0 0.03" rpy="0.0 0.0 0.0"/>
+  </joint>
+  
+  <xacro:sensor_d435 parent="base_link" name="camera" use_nominal_extrinsics="true"/>
+  
+  <xacro:sensor_d435i parent="base_link" name="camera" use_nominal_extrinsics="true"/>
+  
+  <xacro:intel_realsense_mount prefix="camera" topic="camera/depth/color/points" parent_link="camera_link"/>   
+  -->
+
+</robot>
+
+
+
